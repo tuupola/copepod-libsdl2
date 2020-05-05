@@ -38,20 +38,36 @@ SPDX-License-Identifier: MIT
 extern "C" {
 #endif
 
+/* Uncomment this to change to RGB332 colorspace. */
+//#define HAGL_HAL_RGB332
+
 #include <stdint.h>
 #include <stdbool.h>
 #include <bitmap.h>
 
 #define DISPLAY_WIDTH   (320)
 #define DISPLAY_HEIGHT  (240)
+
+#ifdef HAGL_HAL_RGB332
+#define DISPLAY_DEPTH   (8)
+#else
 #define DISPLAY_DEPTH   (16)
+#endif
 
 #define HAGL_HAS_HAL_INIT
 #define HAGL_HAS_HAL_FLUSH
 #define HAGL_HAS_HAL_CLOSE
 
-/* RGB565 colorspace */
+#ifdef HAGL_HAL_RGB332
+/* RGB332 or indexed colorspace. */
+#define HAGL_HAL_RGB332
+typedef uint8_t color_t;
+#else
+/* RGB565 colorspace. */
 typedef uint16_t color_t;
+#endif
+
+
 
 void hagl_hal_put_pixel(int16_t x0, int16_t y0, color_t color);
 void hagl_hal_flush();

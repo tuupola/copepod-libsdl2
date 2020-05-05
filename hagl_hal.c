@@ -111,7 +111,11 @@ bitmap_t *hagl_hal_init(void)
 
     texture = SDL_CreateTexture(
         renderer,
+#ifdef HAGL_HAL_RGB332
+        SDL_PIXELFORMAT_RGB332,
+#else
         SDL_PIXELFORMAT_RGB565,
+#endif
         SDL_TEXTUREACCESS_STATIC,
         DISPLAY_WIDTH,
         DISPLAY_HEIGHT
